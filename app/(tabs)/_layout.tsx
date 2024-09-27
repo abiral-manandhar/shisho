@@ -13,12 +13,40 @@ export default function TabLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
-        name="details"
+        name="games"
         options={{
-          title: "Settings",
+          title: "Games",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
+            <FontAwesome size={28} name="gamepad" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="food"
+        options={{
+          title: "FoodBuddy",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="spoon" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="bot"
+        options={{ headerShown: false,
+          title: "Bot",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="comment" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="user"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="user" color={color} />
           ),
         }}
       />
