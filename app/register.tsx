@@ -8,7 +8,9 @@ import Logo from '@/components/Logo';
 import TitledInputBox from '@/components/TitledInputBox';
 import DarkActButton from '@/components/DarkActButton';
 
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/hooks/useFirebase';
+import { FirebaseError } from 'firebase/app';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -63,27 +65,37 @@ export default function HomeScreen() {
     }
   };
     
-  const registerAccount = () => {
-
+  const registerAccount = async () => {
     if (pwdError != '' || emailError != '' || usrnameError != '') {
       console.log("ERROR REGISTERING!" + emailError + pwdError + usrnameError);
       return;
     }
 
     console.log('Username:', usrname);
-    console.log('EMAIL:', pwd);
+    console.log('Email:', email);
     console.log('Password:', pwd);
     console.log('Account registration successful');
 
-    onchangeusrname('');
-    onchangeemail('');
-    onchangepwd('');
+    setLoading(true);
+    try {
+      await createUserWithEmailAndPassword(auth, email, pwd);
+      onchangeusrname('');
+      onchangeemail('');
+      onchangepwd('');
+    } catch (e: any) {
+      const err = e as FirebaseError;
+      alert('Registration Failed: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <KeyboardAvoidingView
-    style={{ backgroundColor: 'transparent', padding: 0}}
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+    style={{ backgroundColor: Colors.darkBackground + 'FF', padding: 0}}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={2}
+    >
     <ScrollView contentContainerStyle={{flexGrow: 1, backgroundColor: 'transparent'}} bounces={false}>
     <View style={styles.page}>
       <View style={styles.logo}>
@@ -139,7 +151,7 @@ const styles = StyleSheet.create({
     height: 45 * vh,
     width: '100%',
     alignItems: 'center',
-    margin: -50,
+    margin: -7,
     padding: -13,
     justifyContent: 'center',
   },

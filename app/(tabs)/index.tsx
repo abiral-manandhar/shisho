@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+
 import { useRouter } from "expo-router";
 
 const HomeScreen = () => {
-  const router = useRouter(); // Using useRouter from expo-router
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
