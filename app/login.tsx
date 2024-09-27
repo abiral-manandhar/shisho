@@ -44,7 +44,7 @@ export default function HomeScreen() {
         <Text style={styles.head}>Login to Your Account</Text>
         <View style={styles.inner}>
           <Text style={styles.opt}>
-            Dont have an acoount? <Text style={styles.opt2} onPress={() => router.push('/(tabs)/register')}>Register</Text>
+            Dont have an acoount? <Text style={styles.opt2} onPress={() => router.push('/register')}>Register</Text>
           </Text>      
 
           <View style={styles.form}>

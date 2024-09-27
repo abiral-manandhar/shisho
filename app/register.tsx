@@ -44,7 +44,7 @@ export default function HomeScreen() {
         <Text style={styles.head}>Register Your Account</Text>
         <View style={styles.inner}>
           <Text style={styles.opt}>
-            Already have an acoount? <Text style={styles.opt2} onPress={() => router.push('/(tabs)/login')}>Login</Text>
+            Already have an acoount? <Text style={styles.opt2} onPress={() => router.push('/login')}>Login</Text>
           </Text>      
 
           <View style={styles.form}>
