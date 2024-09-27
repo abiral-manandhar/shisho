@@ -41,43 +41,38 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.outer}>
-        <Text style={styles.head}>Login to Your Account</Text>
+        <Text style={styles.head}>Register Your Account</Text>
         <View style={styles.inner}>
           <Text style={styles.opt}>
-            Dont have an acoount? <Text style={styles.opt2} onPress={() => router.push('/(tabs)/register')}>Register</Text>
+            Already have an acoount? <Text style={styles.opt2} onPress={() => router.push('/(tabs)/login')}>Login</Text>
           </Text>      
 
           <View style={styles.form}>
             <TitledInputBox
               title="Username"
-              placeholder="eg. stronguy918"
+              placeholder="eg. ramprasad"
               value={usrname}
               onChangeText={(buf: string) => {onchangeusrname(buf)}}
             />
             <TitledInputBox
               title="Password"
-              placeholder="eg. iamsuperstrong@3121"
+              placeholder="eg. 109537@StRoNG"
               secureTextEntry={true}
               value={pwd}
               onChangeText={(buf: string) => {onchangepwd(buf)}}
             />
-            
+            <TitledInputBox
+              title="E-mail"
+              placeholder="eg. ramprasadbhattari@gmail.com"
+              secureTextEntry={true}
+              value={pwd}
+              onChangeText={(buf: string) => {onchangepwd(buf)}}
+            />
+
           </View>
           <View style={styles.remember}>
-          <BouncyCheckbox
-            size={25}
-            fillColor={Colors.primary}
-            unFillColor="#FFFFFF"
-            text="Remember me"
-            style={{width: 40*vw}}
-            iconStyle={{ borderColor: Colors.accent }}
-            innerIconStyle={{ borderWidth: 4, backgroundColor: Colors.accent }}
-            textStyle={{ fontFamily: 'Nuinto', color: Colors.white, textDecorationLine: 'none', padding: 0, marginLeft: -10 }}
-            onPress={(opt: boolean) => rememberMe(opt)}
-            />
-            {/* <Text style={styles.opt2} onPress={() => router.push('/(tabs)/')}>Forgot Password?</Text> */}
             </View>
-          <DarkActButton title="LOGIN" onPress={loginAccount} />
+          <DarkActButton title="REGISTER" onPress={loginAccount} />
         </View>
       </View>
     </View>
@@ -150,7 +145,7 @@ const styles = StyleSheet.create({
     width: 90 * vw,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginBottom: 15
   },
   opt: {  

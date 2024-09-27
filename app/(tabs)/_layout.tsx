@@ -26,8 +26,19 @@ export default function TabLayout() {
         name="login"
         options={{
           title: "Login",
+          tabBarStyle: {display: 'none'},
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="user" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="register"
+        options={{
+          title: "Register",
+          tabBarStyle: {display: 'none'},
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="bolt" color={color} />
           ),
         }}
       />
