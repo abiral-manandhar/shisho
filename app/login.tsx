@@ -24,7 +24,6 @@ export default function HomeScreen() {
   
   const rememberMe = (opt: boolean) => {
     onchangeremember(opt);
-    // Add logic to handle remember me functionality (e.g., save email/password to AsyncStorage)
   };
 
   const loginAccount = async () => {
@@ -42,10 +41,8 @@ export default function HomeScreen() {
     }
 
     try {
-      // Sign in with Firebase
       await signInWithEmailAndPassword(auth, email, pwd);
       console.log('Login successful');
-      // Navigate to the main app screen after successful login
       router.push('/(tabs)/');
     } catch (e: any) {
       const err = e as FirebaseError;
@@ -108,8 +105,6 @@ export default function HomeScreen() {
                   textStyle={{ fontFamily: 'Nuinto', color: Colors.white, textDecorationLine: 'none', padding: 0, marginLeft: -10 }}
                   onPress={(opt: boolean) => rememberMe(opt)}
                 />
-                {/* Uncomment the following line to allow users to reset their password */}
-                {/* <Text style={styles.opt2} onPress={() => router.push('/forgot-password')}>Forgot Password?</Text> */}
               </View>
               <DarkActButton title="LOGIN" onPress={loginAccount} />
             </View>

@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
-
 import { useRouter } from "expo-router";
+import { auth } from '@/hooks/useFirebase';
+import { onAuthStateChanged } from "firebase/auth";
 
 const HomeScreen = () => {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(true); 
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoading(false);
+      if (user) {
+        router.push("/(tabs)/");
+      } else {
+        router.push("/register");
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, [router]);
+
+  if (loading) {
+    // Show a loading spinner while checking authentication
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -74,6 +99,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#fff",
     fontWeight: "bold",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
   },
 });
 
