@@ -1,4 +1,4 @@
-package com.shisho
+package com.shisho.firebase
 
 import android.os.Build
 import android.os.Bundle

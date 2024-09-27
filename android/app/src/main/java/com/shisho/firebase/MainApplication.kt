@@ -1,4 +1,4 @@
-package com.shisho
+package com.shisho.firebase
 
 import android.app.Application
 import android.content.res.Configuration
