@@ -8,28 +8,42 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { auth } from '@/hooks/useFirebase';
+import { auth, store } from '@/hooks/useFirebase';
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const HomeScreen = () => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(true); 
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(false);
       if (user) {
-        router.push("/(tabs)/");
+        const userDoc = doc(store, "users", user.uid);
+        const docSnap = await getDoc(userDoc);
+        
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          
+          if (userData.weight === 0 && userData.height === 0) {
+            router.push("/(tabs)/user");
+          } else {
+            router.push("/(tabs)/"); 
+          }
+        } else {
+          console.log("No such user in database!");
+          
+        }
       } else {
-        router.push("/(tabs)/");
+        router.push("/login");
       }
     });
 
-    return () => unsubscribe(); // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, [router]);
 
   if (loading) {
-    // Show a loading spinner while checking authentication
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />

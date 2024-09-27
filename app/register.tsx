@@ -9,8 +9,9 @@ import TitledInputBox from '@/components/TitledInputBox';
 import DarkActButton from '@/components/DarkActButton';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/hooks/useFirebase';
+import { auth, store } from '@/hooks/useFirebase';
 import { FirebaseError } from 'firebase/app';
+import { collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -64,6 +65,27 @@ export default function HomeScreen() {
       setusrnameError('');
     }
   };
+
+  const createUnAuth = async (email: string, usrname: string) => {
+    try {
+        const usersRef = collection(store, "unauth");
+        const emailQuery = query(usersRef, where("email", "==", email));
+        const querySnapshot = await getDocs(emailQuery);
+
+        if (querySnapshot.empty) {
+            const newUserDocRef = doc(usersRef, email);
+            await setDoc(newUserDocRef, {
+                email: email,
+                username: usrname,
+            });
+            console.log('User document created:', { email, username: usrname });
+        } else {
+            console.log('A user document with this email already exists:', querySnapshot.docs[0].data());
+        }
+    } catch (error) {
+        console.error("Error creating user document:", error);
+    }
+  };
     
   const registerAccount = async () => {
     if (pwdError != '' || emailError != '' || usrnameError != '') {
@@ -79,14 +101,18 @@ export default function HomeScreen() {
     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, pwd);
+    } catch (e: any) {
+      const err = e as FirebaseError;
       onchangeusrname('');
       onchangeemail('');
       onchangepwd('');
-    } catch (e: any) {
-      const err = e as FirebaseError;
       alert('Registration Failed: ' + err.message);
     } finally {
       setLoading(false);
+      createUnAuth(email, usrname);
+      onchangeusrname('');
+      onchangeemail('');
+      onchangepwd('');
     }
   };
 
