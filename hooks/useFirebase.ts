@@ -1,15 +1,19 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDUXo4Q_tZgdeFwK_5a22SDXsPZOM5QxVs",
-  authDomain: "shisho-mbmc.firebaseapp.com",
-  projectId: "shisho-mbmc",
-  storageBucket: "shisho-mbmc.appspot.com",
-  messagingSenderId: "344718104381",
-  appId: "1:344718104381:web:b8d43ffbef08a7d712d754",
-  measurementId: "G-XZJ3SCRWD6"
+  apiKey: "AIzaSyABoXvox37cU6eakRn9Spba3mGtU-m5Xj8",
+  authDomain: "shishu-bb544.firebaseapp.com",
+  projectId: "shishu-bb544",
+  storageBucket: "shishu-bb544.appspot.com",
+  messagingSenderId: "244198027958",
+  appId: "1:244198027958:web:3e3a6b623edfc334376c17",
+  measurementId: "G-TR2X2JZDVP"
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const store = getFirestore(app);
 
-export { app };
+export { app, auth, store };
