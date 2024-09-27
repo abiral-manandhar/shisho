@@ -23,4 +23,13 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
+  primary: '#0492b2',
+  secondary: '#055fa4',
+  accent: '#037a91',
+  darkBackground: '#034a63',
+  darkerBackground: '#022c3d',
+  lightAccent: '#a1dcef',
+  white: '#FFFFFF',
+  black: '#000000',
+  bg: '#1E1E1E'
 };
