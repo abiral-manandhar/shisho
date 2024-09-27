@@ -21,7 +21,7 @@ const HomeScreen = () => {
       if (user) {
         router.push("/(tabs)/");
       } else {
-        router.push("/register");
+        router.push("/(tabs)/");
       }
     });
 
