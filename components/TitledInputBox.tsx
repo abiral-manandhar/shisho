@@ -43,7 +43,9 @@ const styles = StyleSheet.create({
         
         top: -1.01 * vh,
         left: 5 * vw,
-        width: 10 * vh,
+        paddingLeft: 3,
+        paddingRight: 7,
+        height: 1.5 * vh,
 
         textAlign: 'center',
         fontSize: 1.5 * vh,

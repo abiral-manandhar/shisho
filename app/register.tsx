@@ -14,20 +14,68 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const [usrname, onchangeusrname] = useState('');
-  const [remember, onchangeremember] = useState<boolean>();
   const [pwd, onchangepwd] = useState('');
+  const [email, onchangeemail] = useState('');
+
+  const [usrnameError, setusrnameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [pwdError, setPwdError] = useState('');
 
-  
-  const rememberMe = (opt: boolean) => {
-
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
-  const loginAccount = () => {
+  const validatePasswordStrength = (password: string) => {
+    const passwordStrengthRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordStrengthRegex.test(password);
+  };
+  
+
+  const handleEmailChange = (buf: string) => {
+    onchangeemail(buf);
+    if (!validateEmail(buf)) {
+      setEmailError('Invalid email address');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handlePasswordChange = (buf: string) => {
+    onchangepwd(buf);
+    if (!validatePasswordStrength(buf)) {
+      setPwdError(
+        'Password must be at least 8 characters long, and include a number.'
+      );
+    } else {
+      setPwdError('');
+    }
+  };
+
+  const handleUsernameChange = (buf: string) => {
+    onchangeusrname(buf);
+    if (usrname.length < 2) {
+      setusrnameError('Username must be greater than two characters'); 
+    } else {
+      setusrnameError('');
+    }
+  };
+    
+  const registerAccount = () => {
+
+    if (pwdError != '' || emailError != '' || usrnameError != '') {
+      console.log("ERROR REGISTERING!" + emailError + pwdError + usrnameError);
+      return;
+    }
+
     console.log('Username:', usrname);
-    console.log('Remember Me:', pwd);
+    console.log('EMAIL:', pwd);
+    console.log('Password:', pwd);
     console.log('Account registration successful');
+
+    onchangeusrname('');
+    onchangeemail('');
+    onchangepwd('');
   };
 
   return (
@@ -46,33 +94,29 @@ export default function HomeScreen() {
           <Text style={styles.opt}>
             Already have an acoount? <Text style={styles.opt2} onPress={() => router.push('/login')}>Login</Text>
           </Text>      
-
+          {usrnameError ? <Text style={styles.errorText}>{usrnameError}</Text> :  emailError ? <Text style={styles.errorText}>{emailError}</Text> : pwdError ? <Text style={styles.errorText}>{pwdError}</Text> : null}
           <View style={styles.form}>
             <TitledInputBox
               title="Username"
               placeholder="eg. ramprasad"
               value={usrname}
-              onChangeText={(buf: string) => {onchangeusrname(buf)}}
+              onChangeText={handleUsernameChange}
+            />
+            <TitledInputBox
+              title="Email Address"
+              placeholder="eg. ramprasadbhattari@gmail.com"
+              value={email}
+              onChangeText={handleEmailChange}
             />
             <TitledInputBox
               title="Password"
               placeholder="eg. 109537@StRoNG"
               secureTextEntry={true}
               value={pwd}
-              onChangeText={(buf: string) => {onchangepwd(buf)}}
+              onChangeText={handlePasswordChange}
             />
-            <TitledInputBox
-              title="E-mail"
-              placeholder="eg. ramprasadbhattari@gmail.com"
-              secureTextEntry={true}
-              value={pwd}
-              onChangeText={(buf: string) => {onchangepwd(buf)}}
-            />
-
           </View>
-          <View style={styles.remember}>
-            </View>
-          <DarkActButton title="REGISTER" onPress={loginAccount} />
+          <DarkActButton title="REGISTER" onPress={registerAccount} />
         </View>
       </View>
     </View>
@@ -149,7 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   opt: {  
-    marginTop: 25,
+    marginTop: 12,
     padding: 0,
     fontFamily: 'Nuinto',
     fontWeight: 'light',
@@ -168,12 +212,13 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontFamily: 'NuintoEBold',
-    color: Colors.primary,
+    color: Colors.white,
+    textDecorationLine: 'underline',
     padding: 0,
     margin: 0,
     width: 90*vw,
     textAlign: 'center',
+    marginTop: 6,
     fontSize: 12,
-    marginBottom: 2
   },
 });
