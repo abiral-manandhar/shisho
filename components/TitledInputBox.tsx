@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         color: Colors.white,
 
         borderWidth: 1,
-        borderRadius: 5 ,
+        borderRadius: 20 ,
         borderColor: Colors.white + 'BB',
     },
 });

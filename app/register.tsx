@@ -21,6 +21,8 @@ export default function HomeScreen() {
   const [emailError, setEmailError] = useState('');
   const [pwdError, setPwdError] = useState('');
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -137,13 +139,13 @@ const styles = StyleSheet.create({
     height: 45 * vh,
     width: '100%',
     alignItems: 'center',
-    margin: 0,
-    padding: 0,
+    margin: -50,
+    padding: -13,
     justifyContent: 'center',
   },
   outer: {
     backgroundColor: Colors.darkBackground + 'FF',
-    height: 60 * vh,
+    height: 57 * vh,
     width: '100%',
     borderTopLeftRadius: 15 * vw,
     borderTopRightRadius: 15 * vw,
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   },
   inner: {
     marginTop: 25,
-    height: (50 - 3) * vh,
+    height: (55-5) * vh,
     width: '100%',
     borderTopLeftRadius: 15 * vw,
     borderTopRightRadius: 15 * vw,

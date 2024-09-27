@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { useRouter } from 'expo-router'; 
 
@@ -11,9 +11,9 @@ import DarkActButton from '@/components/DarkActButton';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function HomeScreen() {
-  const router = useRouter();
+  const router = useRouter);
 
-  const [usrname, onchangeusrname] = useState('');
+  const [email, onchangeemail] = useState('');
   const [remember, onchangeremember] = useState<boolean>();
   const [pwd, onchangepwd] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -32,8 +32,10 @@ export default function HomeScreen() {
 
   return (
     <KeyboardAvoidingView
-    style={{ backgroundColor: 'transparent', padding: 0}}
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+    style={{ backgroundColor: Colors.darkBackground + 'FF', paddingVertical: 0}}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={2}
+    >
     <ScrollView contentContainerStyle={{flexGrow: 1, backgroundColor: 'transparent'}} bounces={false}>
     <View style={styles.page}>
       <View style={styles.logo}>
@@ -49,10 +51,10 @@ export default function HomeScreen() {
 
           <View style={styles.form}>
             <TitledInputBox
-              title="Username"
-              placeholder="eg. stronguy918"
-              value={usrname}
-              onChangeText={(buf: string) => {onchangeusrname(buf)}}
+              title="Email Address"
+              placeholder="eg. harilal@gmail.com"
+              value={email}
+              onChangeText={(buf: string) => {onchangeemail(buf)}}
             />
             <TitledInputBox
               title="Password"
@@ -98,13 +100,13 @@ const styles = StyleSheet.create({
     height: 45 * vh,
     width: '100%',
     alignItems: 'center',
-    margin: 0,
-    padding: 0,
+    margin: -50,
+    padding: -13,
     justifyContent: 'center',
   },
   outer: {
     backgroundColor: Colors.darkBackground + 'FF',
-    height: 60 * vh,
+    height: 57 * vh,
     width: '100%',
     borderTopLeftRadius: 15 * vw,
     borderTopRightRadius: 15 * vw,
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
   },
   inner: {
     marginTop: 25,
-    height: (50 - 3) * vh,
+    height: (55-5) * vh,
     width: '100%',
     borderTopLeftRadius: 15 * vw,
     borderTopRightRadius: 15 * vw,
@@ -150,11 +152,11 @@ const styles = StyleSheet.create({
     width: 90 * vw,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginBottom: 15
   },
   opt: {  
-    marginTop: 25,
+    marginTop: 12,
     padding: 0,
     fontFamily: 'Nuinto',
     fontWeight: 'light',
@@ -173,12 +175,13 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontFamily: 'NuintoEBold',
-    color: Colors.primary,
+    color: Colors.white,
+    textDecorationLine: 'underline',
     padding: 0,
     margin: 0,
     width: 90*vw,
     textAlign: 'center',
+    marginTop: 6,
     fontSize: 12,
-    marginBottom: 2
   },
 });
