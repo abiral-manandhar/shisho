@@ -159,6 +159,7 @@ export const pushQuestionsToFirestore = async () => {
     try {
         const batch = writeBatch(store);
         const collectionRef = collection(store, 'bettergayme');
+
         questions.forEach((questionData) => {
             const docRef = doc(collectionRef); 
             batch.set(docRef, questionData); 
@@ -170,5 +171,3 @@ export const pushQuestionsToFirestore = async () => {
         console.error('Error adding questions:', error.message);
     }
 };
-
-pushQuestionsToFirestore();

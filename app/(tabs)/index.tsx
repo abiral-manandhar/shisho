@@ -12,6 +12,8 @@ import { auth, store } from '@/hooks/useFirebase';
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
+import { pushQuestionsToFirestore } from "@/hooks/uploadShit";
+
 const HomeScreen = () => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(true); 
