@@ -92,7 +92,7 @@ export default function HomeScreen() {
           email: email,
           username: usrname,
         });
-        console.log("User document created:", { email, username: usrname });
+        console.log("Usrrrer document created:", { email, username: usrname });
       } else {
         console.log(
           "A user document with this email already exists:",
