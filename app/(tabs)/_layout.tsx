@@ -1,9 +1,14 @@
+import { Colors } from "@/constants/Colors";
+import { vh } from "@/constants/Window";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
+    <Tabs 
+    
+    safeAreaInsets={{bottom: 0, top: 0}}
+    screenOptions={{tabBarStyle: { height: 8 * vh }, tabBarLabelStyle: {fontSize: 10, fontFamily: 'NunitoEBold', padding: 0, margin: 0}, tabBarActiveTintColor: Colors.primary, headerShown: false, tabBarInactiveBackgroundColor: Colors.darkBackground, tabBarActiveBackgroundColor: Colors.darkBackground,  }}>
       <Tabs.Screen
         name="index"
         options={{

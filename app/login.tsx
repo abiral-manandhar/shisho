@@ -10,8 +10,9 @@ import DarkActButton from '@/components/DarkActButton';
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/hooks/useFirebase';
+import { auth, store } from '@/hooks/useFirebase';
 import { FirebaseError } from 'firebase/app';
+import { doc, setDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -26,35 +27,79 @@ export default function HomeScreen() {
     onchangeremember(opt);
   };
 
-  const loginAccount = async () => {
-    setEmailError('');
-    setPwdError('');
+    const loginAccount = async () => {
+      setEmailError('');
+      setPwdError('');
 
-    if (!email) {
-      setEmailError('Email is required');
-      return;
-    }
-
-    if (!pwd) {
-      setPwdError('Password is required');
-      return;
-    }
-
-    try {
-      await signInWithEmailAndPassword(auth, email, pwd);
-      console.log('Login successful');
-      router.push('/(tabs)/');
-    } catch (e: any) {
-      const err = e as FirebaseError;
-      if (err.code === 'auth/wrong-password') {
-        setPwdError('Incorrect password. Please try again.');
-      } else if (err.code === 'auth/user-not-found') {
-        setEmailError('No user found with this email.');
-      } else {
-        alert('Login Failed: ' + err.message);
+      if (!email) {
+          setEmailError('Email is required');
+          return;
       }
-    }
-  };
+
+      if (!pwd) {
+          setPwdError('Password is required');
+          return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, pwd);
+        console.log('Login successful');
+
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          setEmailError('User is not authenticated. Please log in again.');
+          return;
+        }
+
+        const userDocRef = doc(store, "users", currentUser.uid); 
+
+        try {
+          const usersRef = collection(store, "unauth");
+          const emailQuery = query(usersRef, where("email", "==", email));
+          const querySnapshot = await getDocs(emailQuery);
+
+          if (querySnapshot.empty) {
+            setPwdError('Account isn’t registered');
+            return;
+          }
+
+          const unauthUserData = querySnapshot.docs[0].data();
+          const unauthUsername = unauthUserData.username;
+
+          const docSnap = await getDoc(userDocRef);
+          
+          if (!docSnap.exists()) {
+            await setDoc(userDocRef, {
+              email: email,
+              username: unauthUsername,
+              weight: 0,
+              height: 0,
+              location: { 
+                latitude: 0, 
+                longitude: 0 
+              },
+              gamehs: [0, 0, 0], 
+              conditions: [0, 0, 0] 
+            });
+            
+            console.log('User document created:', { email });
+          }
+        } catch (error) {
+          console.error("Error creating user document:", error);
+        }
+        router.push('/(tabs)/');
+      } catch (e: any) {
+          const err = e as FirebaseError;
+          if (err.code === 'auth/wrong-password') {
+              setPwdError('Incorrect password. Please try again.');
+          } else if (err.code === 'auth/user-not-found') {
+              setEmailError('No user found with this email.');
+          } else {
+              alert('Login Failed: ' + err.message);
+          }
+      } 
+    };
+
 
   return (
     <KeyboardAvoidingView
