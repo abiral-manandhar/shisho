@@ -5,10 +5,22 @@ import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
-    <Tabs 
-    
-    safeAreaInsets={{bottom: 0, top: 0}}
-    screenOptions={{tabBarStyle: { height: 8 * vh }, tabBarLabelStyle: {fontSize: 10, fontFamily: 'NunitoEBold', padding: 0, margin: 0}, tabBarActiveTintColor: Colors.primary, headerShown: false, tabBarInactiveBackgroundColor: Colors.darkBackground, tabBarActiveBackgroundColor: Colors.darkBackground,  }}>
+    <Tabs
+      safeAreaInsets={{ bottom: 0, top: 0 }}
+      screenOptions={{
+        tabBarStyle: { height: 8 * vh },
+        tabBarLabelStyle: {
+          fontSize: 10,
+          fontFamily: "NunitoEBold",
+          padding: 0,
+          margin: 0,
+        },
+        tabBarActiveTintColor: Colors.primary,
+        headerShown: false,
+        tabBarInactiveBackgroundColor: Colors.darkBackground,
+        tabBarActiveBackgroundColor: Colors.darkBackground,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -39,7 +51,8 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="bot"
-        options={{ headerShown: false,
+        options={{
+          headerShown: false,
           title: "Bot",
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="comment" color={color} />

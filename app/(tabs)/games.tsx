@@ -10,6 +10,8 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import { store } from "@/hooks/useFirebase";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { Colors } from "@/constants/Colors";
+
 let streak = 0;
 type GaymeProps = {};
 
@@ -76,9 +78,9 @@ const Gayme: React.FC<GaymeProps> = () => {
   }, []);
 
   useEffect(() => {
-    
+    const timeoutId = 0;
     if (showQuestion) {
-      timeoutId = setTimeout(() => {
+      const timeoutId: any = setTimeout(() => {
         setShowQuestion(false);
       }, 5000);
     }

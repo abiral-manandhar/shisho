@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, ScrollView, Image } from "react-native";
 import axios from "axios";
-import { MISTRAL_API_KEY } from "@env";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const API_KEY = MISTRAL_API_KEY;
-const MODEL = "mistral-large-latest";
+const API_KEY = "X1uS7qeQijgOP83bgeEEi6jGAjy3o7gR";
+const MODEL = "mistral-small-latest";
 
 interface Message {
   role: "user" | "assistant";
