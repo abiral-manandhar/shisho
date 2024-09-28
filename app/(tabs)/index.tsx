@@ -13,12 +13,23 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 import { pushQuestionsToFirestore } from "@/hooks/uploadShit";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 const HomeScreen = () => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(true); 
 
   useEffect(() => {
+
+
+    const lockOrientation = async () => {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+    };
+
+    lockOrientation();
+
+
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(false);
       if (user) {
