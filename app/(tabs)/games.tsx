@@ -349,8 +349,8 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     padding: 10,
-    backgroundColor: "#444",
-    borderRadius: 10,
+    backgroundColor: Colors.primary,
+    borderRadius: 20,
   },
   wrongAnswerContainer: {
     flex: 1,
