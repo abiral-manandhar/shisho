@@ -6,19 +6,24 @@ import { Tabs } from "expo-router";
 export default function TabLayout() {
   return (
     <Tabs
-      safeAreaInsets={{ bottom: 0, top: 0 }}
+      safeAreaInsets={{ bottom: 0, top: 0 }} // Correct safe area handling
       screenOptions={{
-        tabBarStyle: { height: 8 * vh },
+        tabBarStyle: {
+          height: 7 * vh, // Adjusted height for better look
+          backgroundColor: Colors.darkBackground, // Unified background color
+          paddingBottom: 10, // Add padding for better spacing from bottom
+        },
         tabBarLabelStyle: {
-          fontSize: 10,
-          fontFamily: "NunitoEBold",
-          padding: 0,
+          fontSize: 12, // Slightly bigger font size for clarity
+          fontFamily: "NunitoEBold", // Ensures consistency in font family
+          paddingBottom: 5, // Padding for label
           margin: 0,
         },
-        tabBarActiveTintColor: Colors.primary,
-        headerShown: false,
-        tabBarInactiveBackgroundColor: Colors.darkBackground,
-        tabBarActiveBackgroundColor: Colors.darkBackground,
+        tabBarActiveTintColor: Colors.primary, // Primary color for active tabs
+        tabBarInactiveTintColor: Colors.gray, // Gray for inactive tabs for visibility
+        tabBarInactiveBackgroundColor: Colors.darkBackground, // Inactive background color
+        tabBarActiveBackgroundColor: Colors.darkBackground, // Active background color
+        headerShown: false, // Keep header hidden for a cleaner look
       }}
     >
       <Tabs.Screen
@@ -26,17 +31,16 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
+            <FontAwesome size={24} name="home" color={color} /> // Reduced size for better balance
           ),
         }}
       />
-
       <Tabs.Screen
         name="games"
         options={{
           title: "Games",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="gamepad" color={color} />
+            <FontAwesome size={24} name="gamepad" color={color} /> // Reduced size for better balance
           ),
         }}
       />
@@ -45,17 +49,16 @@ export default function TabLayout() {
         options={{
           title: "FoodBuddy",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="spoon" color={color} />
+            <FontAwesome size={24} name="spoon" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="bot"
         options={{
-          headerShown: false,
           title: "Bot",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="comment" color={color} />
+            <FontAwesome size={24} name="comment" color={color} />
           ),
         }}
       />
@@ -64,7 +67,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="user" color={color} />
+            <FontAwesome size={24} name="user" color={color} />
           ),
         }}
       />
