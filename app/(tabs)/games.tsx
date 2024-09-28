@@ -10,10 +10,6 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import { store } from "@/hooks/useFirebase";
 import * as ScreenOrientation from "expo-screen-orientation";
-<<<<<<< HEAD
-=======
-
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
 let streak = 0;
 type GaymeProps = {};
 
@@ -26,14 +22,11 @@ const Gayme: React.FC<GaymeProps> = () => {
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [showQuestion, setShowQuestion] = useState<boolean>(false);
   const [fadeOutAnimation] = useState(new Animated.Value(1));
-<<<<<<< HEAD
-=======
   const [streakAnimation] = useState(new Animated.Value(1));
   const [showGameOver, setShowGameOver] = useState<boolean>(false);
   const [showWrongAnswer, setShowWrongAnswer] = useState<boolean>(false);
   const [finalStreak, setFinalStreak] = useState<number>(0);
   const [showFinalScore, setShowFinalScore] = useState<boolean>(false);
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
 
   const getCollections = async () => {
     try {
@@ -83,33 +76,16 @@ const Gayme: React.FC<GaymeProps> = () => {
   }, []);
 
   useEffect(() => {
-    let timeoutId;
-
+    
     if (showQuestion) {
       timeoutId = setTimeout(() => {
         setShowQuestion(false);
-<<<<<<< HEAD
-      }, 5000); // Hide question after 5 seconds
-=======
       }, 5000);
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     }
 
     return () => clearTimeout(timeoutId);
   }, [showQuestion]);
 
-<<<<<<< HEAD
-  const handleCardClick = (index: number) => {
-    const clickedCard = visibleCards[index];
-
-    // Check if the clicked card is correct
-    if (clickedCard.correct) {
-      streak = streak + 1;
-      console.log("Correct!");
-      console.log(streak);
-    } else {
-      console.log("Wrong!");
-=======
   const resetGame = () => {
     streak = 0;
     setShowGameOver(false);
@@ -135,7 +111,6 @@ const Gayme: React.FC<GaymeProps> = () => {
       setFinalStreak(streak);
       setShowWrongAnswer(true); // Show wrong answer screen
       return; // Exit to prevent further actions
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     }
 
     setAnimatingIndex(index);
@@ -145,11 +120,7 @@ const Gayme: React.FC<GaymeProps> = () => {
       duration: 300,
       useNativeDriver: true,
     }).start(() => {
-<<<<<<< HEAD
-      if (currentIndex + 1 < allCards.length) {
-=======
       if (clickedCard.correct && currentIndex + 1 < allCards.length) {
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
         const newCards = [allCards[currentIndex], allCards[currentIndex + 1]];
         setVisibleCards(newCards);
         setCurrentIndex(currentIndex + 2);
@@ -161,8 +132,6 @@ const Gayme: React.FC<GaymeProps> = () => {
     });
   };
 
-<<<<<<< HEAD
-=======
   const animateStreak = () => {
     Animated.sequence([
       Animated.timing(streakAnimation, {
@@ -178,7 +147,6 @@ const Gayme: React.FC<GaymeProps> = () => {
     ]).start();
   };
 
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
   const animatedStyle = {
     opacity: animation.interpolate({
       inputRange: [0, 1],
@@ -191,15 +159,12 @@ const Gayme: React.FC<GaymeProps> = () => {
           outputRange: [0, -100],
         }),
       },
-<<<<<<< HEAD
-=======
       {
         scale: animation.interpolate({
           inputRange: [0, 1],
           outputRange: [1, 1.2],
         }),
       },
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     ],
   };
 
@@ -243,13 +208,9 @@ const Gayme: React.FC<GaymeProps> = () => {
                 style={styles.image}
                 resizeMode="cover"
               />
-<<<<<<< HEAD
-              <Text style={styles.text}>{visibleCards[0].text}</Text>
-=======
               <View style={styles.textContainer}>
                 <Text style={styles.cardText}>{visibleCards[0].text}</Text>
               </View>
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
             </Animated.View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -267,21 +228,14 @@ const Gayme: React.FC<GaymeProps> = () => {
                 style={styles.image}
                 resizeMode="cover"
               />
-<<<<<<< HEAD
-              <Text style={styles.text}>{visibleCards[1].text}</Text>
-=======
               <View style={styles.textContainer}>
                 <Text style={styles.cardText}>{visibleCards[1].text}</Text>
               </View>
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
             </Animated.View>
           </TouchableOpacity>
         </>
       )}
 
-<<<<<<< HEAD
-      <Text style={styles.bt}>Streak: {streak}</Text>
-=======
       <Animated.View style={{ transform: [{ scale: streakAnimation }] }}>
         <Text style={styles.bt}>Streak: {streak}</Text>
       </Animated.View>
@@ -317,29 +271,17 @@ const Gayme: React.FC<GaymeProps> = () => {
           </TouchableOpacity>
         </View>
       )}
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-<<<<<<< HEAD
-    backgroundColor: "black",
-=======
     backgroundColor: "#1E1E1E",
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-<<<<<<< HEAD
-  },
-  card: {
-    flex: 1,
-    margin: 5,
-    overflow: "hidden",
-=======
     padding: 20,
   },
   card: {
@@ -353,7 +295,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 5,
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
   },
   cardContent: {
     flex: 1,
@@ -364,14 +305,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "140%",
   },
-<<<<<<< HEAD
-  text: {
-    color: "red",
-    fontWeight: "bold",
-    fontSize: 20,
-    top: -200,
-    zIndex: 20,
-=======
   textContainer: {
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     padding: 10,
@@ -388,7 +321,6 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
     fontSize: 20,
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     textAlign: "center",
   },
   questionContainer: {
@@ -399,29 +331,12 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     zIndex: 30,
-<<<<<<< HEAD
-=======
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
   },
   questionText: {
     fontSize: 24,
     fontWeight: "bold",
-<<<<<<< HEAD
-    color: "white",
-    textAlign: "center",
-  },
-
-  bt: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "red",
-    textAlign: "center",
-    position: "absolute",
-    bottom: 0,
-    right: 20,
-=======
     color: "#FFF",
     textAlign: "center",
   },
@@ -500,7 +415,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#FFF",
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
   },
 });
 

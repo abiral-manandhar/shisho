@@ -1,12 +1,7 @@
 {
   "expo": {
-<<<<<<< HEAD
-    "name": "shishu",
-    "slug": "shishu",
-=======
     "name": "shisho",
     "slug": "shisho",
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -32,9 +27,6 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-<<<<<<< HEAD
-      "expo-router"
-=======
       "expo-router",
       [
         "expo-build-properties",
@@ -44,7 +36,6 @@
           }
         }
       ]
->>>>>>> 9355127739c11c5d278f272d78de2f287e72ca2f
     ],
     "experiments": {
       "typedRoutes": true
