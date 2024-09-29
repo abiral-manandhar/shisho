@@ -1,113 +1,130 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router'; 
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
+import { useRouter } from "expo-router";
 
-import { vw, vh } from '@/constants/Window';
-import { Colors } from '@/constants/Colors';
-import Logo from '@/components/Logo';
-import TitledInputBox from '@/components/TitledInputBox';
-import DarkActButton from '@/components/DarkActButton';
+import { vw, vh } from "@/constants/Window";
+import { Colors } from "@/constants/Colors";
+import Logo from "@/components/Logo";
+import TitledInputBox from "@/components/TitledInputBox";
+import DarkActButton from "@/components/DarkActButton";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, store } from '@/hooks/useFirebase';
-import { FirebaseError } from 'firebase/app';
-import { doc, setDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, store } from "@/hooks/useFirebase";
+import { FirebaseError } from "firebase/app";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 export default function HomeScreen() {
   const router = useRouter();
 
-  const [email, onchangeemail] = useState('');
+  const [email, onchangeemail] = useState("");
   const [remember, onchangeremember] = useState<boolean>(false);
-  const [pwd, onchangepwd] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [pwdError, setPwdError] = useState('');
-  
+  const [pwd, onchangepwd] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [pwdError, setPwdError] = useState("");
+
   const rememberMe = (opt: boolean) => {
     onchangeremember(opt);
   };
 
-    const loginAccount = async () => {
-      setEmailError('');
-      setPwdError('');
+  const loginAccount = async () => {
+    setEmailError("");
+    setPwdError("");
 
-      if (!email) {
-          setEmailError('Email is required');
-          return;
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    }
+
+    if (!pwd) {
+      setPwdError("Password is required");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pwd);
+      console.log("Login successful");
+
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        setEmailError("User is not authenticated. Please log in again.");
+        return;
       }
 
-      if (!pwd) {
-          setPwdError('Password is required');
-          return;
-      }
+      const userDocRef = doc(store, "users", currentUser.uid);
 
       try {
-        await signInWithEmailAndPassword(auth, email, pwd);
-        console.log('Login successful');
+        const usersRef = collection(store, "unauth");
+        const emailQuery = query(usersRef, where("email", "==", email));
+        const querySnapshot = await getDocs(emailQuery);
 
-        const currentUser = auth.currentUser;
-        if (!currentUser) {
-          setEmailError('User is not authenticated. Please log in again.');
+        if (querySnapshot.empty) {
+          setPwdError("Account isn’t registered");
           return;
         }
 
-        const userDocRef = doc(store, "users", currentUser.uid); 
+        const unauthUserData = querySnapshot.docs[0].data();
+        const unauthUsername = unauthUserData.username;
 
-        try {
-          const usersRef = collection(store, "unauth");
-          const emailQuery = query(usersRef, where("email", "==", email));
-          const querySnapshot = await getDocs(emailQuery);
+        const docSnap = await getDoc(userDocRef);
 
-          if (querySnapshot.empty) {
-            setPwdError('Account isn’t registered');
-            return;
-          }
+        if (!docSnap.exists()) {
+          await setDoc(userDocRef, {
+            email: email,
+            username: unauthUsername,
+            weight: 0,
+            height: 0,
+            location: {
+              latitude: 0,
+              longitude: 0,
+            },
+            gamehs: [0, 0, 0],
+            conditions: [0, 0, 0],
+          });
 
-          const unauthUserData = querySnapshot.docs[0].data();
-          const unauthUsername = unauthUserData.username;
-
-          const docSnap = await getDoc(userDocRef);
-          
-          if (!docSnap.exists()) {
-            await setDoc(userDocRef, {
-              email: email,
-              username: unauthUsername,
-              weight: 0,
-              height: 0,
-              location: { 
-                latitude: 0, 
-                longitude: 0 
-              },
-              gamehs: [0, 0, 0], 
-              conditions: [0, 0, 0] 
-            });
-            
-            console.log('User document created:', { email });
-          }
-        } catch (error) {
-          console.error("Error creating user document:", error);
+          console.log("User document created:", { email });
         }
-        router.push('/(tabs)/');
-      } catch (e: any) {
-          const err = e as FirebaseError;
-          if (err.code === 'auth/wrong-password') {
-              setPwdError('Incorrect password. Please try again.');
-          } else if (err.code === 'auth/user-not-found') {
-              setEmailError('No user found with this email.');
-          } else {
-              alert('Login Failed: ' + err.message);
-          }
-      } 
-    };
-
+      } catch (error) {
+        console.error("Error creating user document:", error);
+      }
+      router.push("/(tabs)/");
+    } catch (e: any) {
+      const err = e as FirebaseError;
+      if (err.code === "auth/wrong-password") {
+        setPwdError("Incorrect password. Please try again.");
+      } else if (err.code === "auth/user-not-found") {
+        setEmailError("No user found with this email.");
+      } else {
+        alert("Login Failed: " + err.message);
+      }
+    }
+  };
 
   return (
     <KeyboardAvoidingView
-      style={{ backgroundColor: Colors.darkBackground + 'FF', padding: 0}}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ backgroundColor: Colors.darkBackground + "FF", padding: 0 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={2}
     >
-      <ScrollView contentContainerStyle={{flexGrow: 1, backgroundColor: 'transparent'}} bounces={false}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: "transparent" }}
+        bounces={false}
+      >
         <View style={styles.page}>
           <View style={styles.logo}>
             <Logo width={50 * vw} />
@@ -117,8 +134,14 @@ export default function HomeScreen() {
             <Text style={styles.head}>Login to Your Account</Text>
             <View style={styles.inner}>
               <Text style={styles.opt}>
-                Don't have an account? <Text style={styles.opt2} onPress={() => router.push('/register')}>Register</Text>
-              </Text>      
+                Don't have an account?{" "}
+                <Text
+                  style={styles.opt2}
+                  onPress={() => router.push("/register")}
+                >
+                  Register
+                </Text>
+              </Text>
 
               <View style={styles.form}>
                 <TitledInputBox
@@ -127,7 +150,9 @@ export default function HomeScreen() {
                   value={email}
                   onChangeText={onchangeemail}
                 />
-                {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+                {emailError ? (
+                  <Text style={styles.errorText}>{emailError}</Text>
+                ) : null}
                 <TitledInputBox
                   title="Password"
                   placeholder="eg. iamsuperstrong@3121"
@@ -135,7 +160,9 @@ export default function HomeScreen() {
                   value={pwd}
                   onChangeText={onchangepwd}
                 />
-                {pwdError ? <Text style={styles.errorText}>{pwdError}</Text> : null}
+                {pwdError ? (
+                  <Text style={styles.errorText}>{pwdError}</Text>
+                ) : null}
               </View>
 
               <View style={styles.remember}>
@@ -144,10 +171,19 @@ export default function HomeScreen() {
                   fillColor={Colors.primary}
                   unFillColor="#FFFFFF"
                   text="Remember me"
-                  style={{width: 40 * vw}}
+                  style={{ width: 40 * vw }}
                   iconStyle={{ borderColor: Colors.accent }}
-                  innerIconStyle={{ borderWidth: 4, backgroundColor: Colors.accent }}
-                  textStyle={{ fontFamily: 'Nuinto', color: Colors.white, textDecorationLine: 'none', padding: 0, marginLeft: -10 }}
+                  innerIconStyle={{
+                    borderWidth: 4,
+                    backgroundColor: Colors.accent,
+                  }}
+                  textStyle={{
+                    fontFamily: "Nuinto",
+                    color: Colors.white,
+                    textDecorationLine: "none",
+                    padding: 0,
+                    marginLeft: -10,
+                  }}
                   onPress={(opt: boolean) => rememberMe(opt)}
                 />
               </View>
@@ -163,33 +199,33 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: Colors.bg,
   },
   logo: {
     height: 45 * vh,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     margin: -7,
     padding: -13,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   outer: {
-    backgroundColor: Colors.darkBackground + 'FF',
+    backgroundColor: Colors.darkBackground + "FF",
     height: 57 * vh,
-    width: '100%',
+    width: "100%",
     borderTopLeftRadius: 15 * vw,
     borderTopRightRadius: 15 * vw,
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   head: {
     marginTop: 35,
     padding: 0,
-    fontFamily: 'NuintoEBold',
-    textAlign: 'center',
+    fontFamily: "NuintoEBold",
+    textAlign: "center",
     color: Colors.white,
     fontSize: 30,
     width: 90 * vw,
@@ -197,46 +233,46 @@ const styles = StyleSheet.create({
   inner: {
     marginTop: 25,
     height: (55 - 5) * vh,
-    width: '100%',
+    width: "100%",
     borderTopLeftRadius: 15 * vw,
     borderTopRightRadius: 15 * vw,
-    backgroundColor: Colors.accent + 'FF',
-    display: 'flex',
-    alignItems: 'center',
+    backgroundColor: Colors.accent + "FF",
+    display: "flex",
+    alignItems: "center",
   },
   remember: {
     width: 90 * vw,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 15,
   },
-  opt: {  
+  opt: {
     marginTop: 12,
     padding: 0,
-    fontFamily: 'Nuinto',
-    fontWeight: 'light',
-    textAlign: 'center',
+    fontFamily: "Nuinto",
+    fontWeight: "light",
+    textAlign: "center",
     color: Colors.white,
     width: 80 * vw,
   },
   opt2: {
-    fontFamily: 'NuintoEBold',
+    fontFamily: "NuintoEBold",
     color: Colors.darkerBackground,
   },
   form: {
     marginTop: 25,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   errorText: {
-    fontFamily: 'NuintoEBold',
+    fontFamily: "NuintoEBold",
     color: Colors.white,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     padding: 0,
     margin: 0,
     width: 90 * vw,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 6,
     fontSize: 12,
   },

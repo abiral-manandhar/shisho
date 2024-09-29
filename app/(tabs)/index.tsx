@@ -13,16 +13,17 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native"; // For navigation
 import * as ScreenOrientation from "expo-screen-orientation";
 import { useRouter } from "expo-router";
+import { Colors } from "@/constants/Colors";
 const { width, height } = Dimensions.get("window");
 const CARD_SIZE = width * 0.42;
 
 const HomeScreen = () => {
   const router = useRouter();
   const [userData, setUserData] = useState({
-    weight: '',
-    height: '',
-    username: '',
-    email: '',
+    weight: "",
+    height: "",
+    username: "",
+    email: "",
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -40,16 +41,16 @@ const HomeScreen = () => {
             weight: 0,
             height: 0,
           });
-          console.log('User document created:', currentUser.email);
+          console.log("User document created:", currentUser.email);
         } else {
           const data = docSnap.data();
           setUserData({
             weight: data.weight.toString(),
             height: data.height.toString(),
             username: data.username.toString(),
-            email: data.email.toString()
+            email: data.email.toString(),
           });
-          console.log('User document already exists:', data);
+          console.log("User document already exists:", data);
         }
       } else {
         console.error("No user is currently logged in.");
@@ -69,7 +70,9 @@ const HomeScreen = () => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {/* Top Section */}
         <View style={styles.topContainer}>
-          <Text style={styles.greetingText}>Good Morning, {userData.username}</Text>
+          <Text style={styles.greetingText}>
+            Good Morning, {userData.username}
+          </Text>
           <Text style={styles.questionText}>How Are You Feeling Today?</Text>
         </View>
 
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   halfBackground: {
-    backgroundColor: "#055fa4",
+    backgroundColor: Colors.primary,
     width: "100%",
     height: height * 0.4, // Quarter of the screen height
     position: "absolute",
@@ -193,7 +196,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   callButton: {
-    backgroundColor: "#0492b2",
+    backgroundColor: Colors.white,
     padding: 15,
     borderRadius: 25,
     alignItems: "center",

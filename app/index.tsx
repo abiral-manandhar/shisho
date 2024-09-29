@@ -19,7 +19,6 @@ const Index = () => {
           onPress={() => router.push("/register")}
         />
       </View>
-
     </LinearGradient>
   );
 };
