@@ -24,11 +24,6 @@ const Gayme: React.FC<GaymeProps> = () => {
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [showQuestion, setShowQuestion] = useState<boolean>(false);
   const [fadeOutAnimation] = useState(new Animated.Value(1));
-  const [streakAnimation] = useState(new Animated.Value(1));
-  const [showGameOver, setShowGameOver] = useState<boolean>(false);
-  const [showWrongAnswer, setShowWrongAnswer] = useState<boolean>(false);
-  const [finalStreak, setFinalStreak] = useState<number>(0);
-  const [showFinalScore, setShowFinalScore] = useState<boolean>(false);
 
   const getCollections = async () => {
     try {
