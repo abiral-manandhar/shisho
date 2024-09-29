@@ -11,6 +11,11 @@ import { collection, getDocs } from "firebase/firestore";
 import { store } from "@/hooks/useFirebase";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { Colors } from "@/constants/Colors";
+import { useRef } from "react";
+
+const streakAnimation = useRef(new Animated.Value(1)).current;
+
+
 
 let streak = 0;
 type GaymeProps = {};
