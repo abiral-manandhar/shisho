@@ -4,7 +4,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { useEffect } from "react";
 export default function TabLayout() {
-
   return (
     <Tabs
       safeAreaInsets={{ bottom: 0, top: 0 }} // Correct safe area handling
@@ -21,6 +20,7 @@ export default function TabLayout() {
           margin: 0,
         },
         tabBarActiveTintColor: Colors.primary, // Primary color for active tabs
+        tabBarInactiveTintColor: Colors.white,
         tabBarInactiveBackgroundColor: Colors.darkBackground, // Inactive background color
         tabBarActiveBackgroundColor: Colors.darkBackground, // Active background color
         headerShown: false, // Keep header hidden for a cleaner look

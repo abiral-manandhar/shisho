@@ -85,14 +85,15 @@ const HomeScreen = () => {
             <Text style={styles.buttonText}>Consult</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.callButton}>
-            <Text style={styles.callButtonText}>Call</Text>
+            <Text style={styles.callButtonText} g>
+              Call
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* Conditions Section */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Where to?</Text>
-          <Text style={styles.healthText}>Health</Text>
         </View>
 
         {/* Card Grid */}
@@ -137,17 +138,17 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F6F6F6", // Background color for the other half
+    backgroundColor: Colors.bg, // Background color for the other half
     position: "relative",
   },
   halfBackground: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.darkBackground,
     width: "100%",
-    height: height * 0.4, // Quarter of the screen height
+    height: height * 0.45, // Quarter of the screen height
     position: "absolute",
     top: 0,
     left: 0,
-    borderBottomRightRadius: 50, // Adding some curve to make it aesthetic
+    borderBottomRightRadius: 650, // Adding some curve to make it aesthetic
   },
   contentContainer: {
     flexGrow: 1,
@@ -162,13 +163,13 @@ const styles = StyleSheet.create({
   },
   greetingText: {
     fontSize: 22,
-    fontWeight: "500",
     color: "#FFF", // White text to stand out on dark background
     marginBottom: 10,
   },
   questionText: {
     fontSize: 26,
     fontWeight: "bold",
+    fontFamily: "NunitoEBold",
     color: "#FFF",
   },
   buttonContainer: {
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
   callButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#FFF",
+    color: "#000",
   },
   sectionHeader: {
     flexDirection: "row",
@@ -219,12 +220,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: "#fff",
   },
   healthText: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#0492b2",
   },
   gridContainer: {
     flexDirection: "row",
