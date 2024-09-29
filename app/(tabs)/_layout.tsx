@@ -20,7 +20,6 @@ export default function TabLayout() {
           margin: 0,
         },
         tabBarActiveTintColor: Colors.primary, // Primary color for active tabs
-        tabBarInactiveTintColor: Colors.gray, // Gray for inactive tabs for visibility
         tabBarInactiveBackgroundColor: Colors.darkBackground, // Inactive background color
         tabBarActiveBackgroundColor: Colors.darkBackground, // Active background color
         headerShown: false, // Keep header hidden for a cleaner look

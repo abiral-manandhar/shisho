@@ -1,0 +1,70 @@
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import DarkActButton from "@/components/DarkActButton";
+import { LinearGradient } from "expo-linear-gradient";
+
+const Index = () => {
+  const router = useRouter();
+
+  return (
+    <LinearGradient
+      colors={["#1e3c72", "#2a5298"]} // Adjust the colors as needed
+      style={styles.container}
+    >
+      <View style={styles.innerContainer}>
+        <Text style={styles.title}>Welcome to Shishu App!</Text>
+        <Text style={styles.subtitle}>Ready to get started? Register now!</Text>
+
+        <DarkActButton
+          title="Register Now"
+          onPress={() => router.push("/register")}
+          style={styles.button}
+        />
+      </View>
+    </LinearGradient>
+  );
+};
+
+// Add this to hide the header
+export const options = {
+  headerShown: false,
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    overflow: "hidden",
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    padding: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.1)", // Add slight transparency for inner container
+    borderRadius: 30,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#ffffff",
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: "#ffffff",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  button: {
+    marginTop: 20,
+  },
+});
+
+export default Index;
