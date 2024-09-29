@@ -2,8 +2,9 @@ import { Colors } from "@/constants/Colors";
 import { vh } from "@/constants/Window";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
-
+import { useEffect } from "react";
 export default function TabLayout() {
+
   return (
     <Tabs
       safeAreaInsets={{ bottom: 0, top: 0 }} // Correct safe area handling
@@ -46,9 +47,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="food"
         options={{
-          title: "FoodBuddy",
+          title: "Vaccination",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={24} name="spoon" color={color} />
+            <FontAwesome size={24} name="plus" color={color} />
           ),
         }}
       />

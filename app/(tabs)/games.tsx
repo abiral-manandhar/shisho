@@ -11,11 +11,6 @@ import { collection, getDocs } from "firebase/firestore";
 import { store } from "@/hooks/useFirebase";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { Colors } from "@/constants/Colors";
-import { useRef } from "react";
-
-const streakAnimation = useRef(new Animated.Value(1)).current;
-
-
 
 let streak = 0;
 type GaymeProps = {};
@@ -29,6 +24,11 @@ const Gayme: React.FC<GaymeProps> = () => {
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [showQuestion, setShowQuestion] = useState<boolean>(false);
   const [fadeOutAnimation] = useState(new Animated.Value(1));
+  const [streakAnimation] = useState(new Animated.Value(1));
+  const [showGameOver, setShowGameOver] = useState<boolean>(false);
+  const [showWrongAnswer, setShowWrongAnswer] = useState<boolean>(false);
+  const [finalStreak, setFinalStreak] = useState<number>(0);
+  const [showFinalScore, setShowFinalScore] = useState<boolean>(false);
 
   const getCollections = async () => {
     try {

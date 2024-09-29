@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
+import { vw, vh } from "@/constants/Window";
 import MapView, { Marker } from "react-native-maps";
+import { Colors } from "@/constants/Colors";
+import DarkActButton from "@/components/DarkActButton";
 
 type VaccinationDrive = {
   vaccinations: { name: string; ageGroup: string }[];
@@ -93,6 +96,9 @@ const vaccinationDrives: VaccinationDrive[] = [
   },
 ];
 
+import * as ScreenOrientation from "expo-screen-orientation";
+import { useEffect } from "react";
+
 const Food = () => {
   const [selectedDrive, setSelectedDrive] = useState<VaccinationDrive | null>(
     null
@@ -165,8 +171,8 @@ const Food = () => {
                 description={selectedDrive.location}
               />
             </MapView>
-            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Close</Text>
+           <TouchableOpacity style={styles.btn} onPress={closeModal}>
+              <Text style={styles.btnText}>CLOSE</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -183,7 +189,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1c1c1c", // Shade of black
   },
   titleBar: {
-    backgroundColor: "#0492b2", // Same shade of blue
+    marginTop: 40,
     paddingVertical: 15,
     paddingHorizontal: 10,
     borderRadius: 10,
@@ -191,39 +197,47 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleText: {
-    color: "white",
-    fontSize: 20,
+    color: Colors.primary,
+    fontSize: 24,
     fontWeight: "bold",
   },
   card: {
-    backgroundColor: "#0492b2", // Card color
+    margin: 0,
+    backgroundColor: Colors.darkBackground, // Card color
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
     elevation: 3,
   },
   heading: {
-    fontSize: 18,
+    fontSize: 26,
+    fontFamily: 'NuintoEBold',
     fontWeight: "bold",
     marginBottom: 5,
-    color: "white",
+    color: Colors.white
   },
   location: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: 'Nuinto',
     color: "white",
   },
   text: {
     fontSize: 16,
+    fontFamily: 'Nuinto',
     color: "white",
   },
   vaccine: {
+    fontFamily: 'Nuinto',
     fontSize: 16,
     color: "white",
   },
   modalContainer: {
     flex: 1,
-    padding: 20,
+    padding: 0,
+    textAlign: 'right',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: "#1c1c1c",
   },
   map: {
@@ -240,6 +254,21 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  btn: {
+    width: 60 * vw,
+    height: 7 * vh,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.accent,
+    borderRadius: 100,
+  },
+  btnText: {
+    padding: 0,
+    textAlign: 'center',
+    color: Colors.white,
+    fontFamily: 'NuintoEBold',
+    fontSize: 16, 
   },
 });
 

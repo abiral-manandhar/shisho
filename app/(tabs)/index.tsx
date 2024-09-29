@@ -7,12 +7,58 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
+import { useState, useEffect } from "react";
+import { auth, store } from "@/hooks/useFirebase";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native"; // For navigation
-
+import * as ScreenOrientation from "expo-screen-orientation";
+import { useRouter } from "expo-router";
 const { width, height } = Dimensions.get("window");
 const CARD_SIZE = width * 0.42;
 
 const HomeScreen = () => {
+  const router = useRouter();
+  const [userData, setUserData] = useState({
+    weight: '',
+    height: '',
+    username: '',
+    email: '',
+  });
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const currentUser = auth.currentUser;
+
+      if (currentUser) {
+        const userDocRef = doc(store, "users", currentUser.uid);
+        const docSnap = await getDoc(userDocRef);
+
+        if (!docSnap.exists()) {
+          await setDoc(userDocRef, {
+            email: currentUser.email,
+            weight: 0,
+            height: 0,
+          });
+          console.log('User document created:', currentUser.email);
+        } else {
+          const data = docSnap.data();
+          setUserData({
+            weight: data.weight.toString(),
+            height: data.height.toString(),
+            username: data.username.toString(),
+            email: data.email.toString()
+          });
+          console.log('User document already exists:', data);
+        }
+      } else {
+        console.error("No user is currently logged in.");
+      }
+    };
+
+    fetchUser();
+  }, [auth.currentUser?.email]);
+
   const navigation = useNavigation(); // Get the navigation object
 
   return (
@@ -23,7 +69,7 @@ const HomeScreen = () => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {/* Top Section */}
         <View style={styles.topContainer}>
-          <Text style={styles.greetingText}>Good Morning, Reze</Text>
+          <Text style={styles.greetingText}>Good Morning, {userData.username}</Text>
           <Text style={styles.questionText}>How Are You Feeling Today?</Text>
         </View>
 
@@ -51,7 +97,7 @@ const HomeScreen = () => {
           {/* Games Card */}
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate("games")} // Link to the 'games' tab
+            onPress={() => router.push("/(tabs)/games")} // Link to the 'games' tab
           >
             <Text style={styles.cardText}>Games</Text>
           </TouchableOpacity>
@@ -59,15 +105,15 @@ const HomeScreen = () => {
           {/* FoodBuddy Card */}
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate("food")} // Link to the 'food' tab
+            onPress={() => router.push("/(tabs)/food")} // Link to the 'food' tab
           >
-            <Text style={styles.cardText}>FoodBuddy</Text>
+            <Text style={styles.cardText}>Vaccination</Text>
           </TouchableOpacity>
 
           {/* Bot Card */}
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate("bot")} // Link to the 'bot' tab
+            onPress={() => router.push("/(tabs)/bot")} // Link to the 'bot' tab
           >
             <Text style={styles.cardText}>Bot</Text>
           </TouchableOpacity>
@@ -75,7 +121,7 @@ const HomeScreen = () => {
           {/* Profile Card */}
           <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate("user")} // Link to the 'user' tab (Profile)
+            onPress={() => router.push("/(tabs)/profile")} // Link to the 'user' tab (Profile)
           >
             <Text style={styles.cardText}>Profile</Text>
           </TouchableOpacity>

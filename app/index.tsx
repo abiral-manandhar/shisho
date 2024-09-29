@@ -13,15 +13,13 @@ const Index = () => {
       style={styles.container}
     >
       <View style={styles.innerContainer}>
-        <Text style={styles.title}>Welcome to Shishu App!</Text>
-        <Text style={styles.subtitle}>Ready to get started? Register now!</Text>
-
+        <Text style={styles.title}>Welcome to Shishu</Text>
         <DarkActButton
           title="Register Now"
           onPress={() => router.push("/register")}
-          style={styles.button}
         />
       </View>
+
     </LinearGradient>
   );
 };
@@ -34,6 +32,7 @@ export const options = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    fontFamily: "NunitoEBold",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -47,7 +46,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.1)", // Add slight transparency for inner container
     borderRadius: 30,
   },
   title: {

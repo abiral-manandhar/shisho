@@ -6,9 +6,15 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
+import { vw, vh } from "@/constants/Window"
 import axios from "axios";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Colors } from "@/constants/Colors";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { useEffect } from "react";
 
 const API_KEY = "X1uS7qeQijgOP83bgeEEi6jGAjy3o7gR";
 const MODEL = "mistral-small-latest";
@@ -51,7 +57,7 @@ const ChatBot = () => {
         content: response.data.choices[0].message.content,
       };
 
-      setMessages((prevMessages) => [...prevMessages, assistantMessage]);
+      setMessages((prevMessages: any) => [...prevMessages, assistantMessage]);
     } catch (error) {
       console.error("Error fetching response:", error);
     }
@@ -61,7 +67,7 @@ const ChatBot = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+    <ScrollView style={styles.scrollView}>
         {messages.length === 0 ? (
           <View style={styles.emptyState}>
             <Image
@@ -102,7 +108,6 @@ const ChatBot = () => {
             </View>
           ))
         )}
-      </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
           value={input}
@@ -118,7 +123,9 @@ const ChatBot = () => {
           size={42}
           color="#0492b2"
         />
+        
       </View>
+      </ScrollView>
     </View>
   );
 };
@@ -126,7 +133,7 @@ const ChatBot = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    width: 100 * vw,
     backgroundColor: "#1e1e1e", // Dark background for a modern look
   },
   scrollView: {
@@ -135,7 +142,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "#444",
     borderWidth: 1,
-    padding: 7,
     backgroundColor: "#2c2c2c", // Light dark for message area
   },
   emptyState: {
@@ -163,7 +169,7 @@ const styles = StyleSheet.create({
   messageContainer: {
     marginVertical: 5,
     marginHorizontal: 10,
-    maxWidth: "80%",
+    maxWidth: "100%",
   },
   messageRole: {
     fontWeight: "bold",
